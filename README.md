@@ -1,2 +1,2 @@
 # Hangman_Python
-A simple game called hangman which i have developed in python
+This is a simple word guessing game called Hangman which is developed in python 3
