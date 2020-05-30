@@ -1,0 +1,134 @@
+from words import word
+import random
+def hangman_status(tries):
+    you_hanged=[
+    '''
+     ______________
+    |          |
+    |          |  
+    |          /
+    |
+    |
+    |
+    |
+    |
+    ''',
+    '''
+     ______________
+    |          |
+    |          |  
+    |          /
+    |          O 
+    |          |  
+    |
+    |
+    |
+    ''',
+    '''
+     ______________
+    |          |
+    |          |  
+    |          /
+    |          O 
+    |          |\  
+    |          | 
+    |
+    |
+    ''',
+    '''
+     ______________
+    |          |
+    |          |  
+    |          /
+    |          O 
+    |         /|\  
+    |          | 
+    |
+    |
+    ''',
+    '''
+     ______________
+    |          |
+    |          |  
+    |          /
+    |          O 
+    |         /|\  
+    |          | 
+    |          | 
+    |
+    ''',
+    '''
+     ______________
+    |          |
+    |          |  
+    |          /
+    |          O
+    |         /|\  
+    |          | 
+    |          |
+    |         /
+    ''',
+    '''
+     ______________
+    |          |
+    |          |  
+    |          /
+    |          O_
+    |         /|\  
+    |          | 
+    |          | 
+    |         /
+    '''
+    ]
+    return you_hanged[6-tries]
+
+def play():
+    word_chose=(random.choice(word)).upper()
+    guessed_letter=[]
+    guessed_word=[]
+    word_completion="_"*len(word_chose)
+    guessed=False
+    tries=6
+    print("lets play the hangman...")
+    print(hangman_status(tries),end="\n")
+    while not guessed and tries>0:
+        guess=input("bro make a guess.. ").upper()
+        if len(guess)==1 and guess.isalpha():
+            if guess in guessed_letter:
+                print("bro you already guessed",guess)
+            elif guess not in word_chose:
+                print("guess is wrong")
+                guessed_letter.append(guess)
+                tries-=1
+            else:
+                word_completion=list(word_completion)
+                for i in range(len(word_chose)):
+                    if word_chose[i]==guess:
+                        word_completion[i]=guess
+                guessed_letter.append(guess)
+                word_completion="".join(word_completion)
+                print("your guess is right..")
+                print(guess,"is in the word",end="\n")
+        elif len(guess)==len(word_chose) and guess.isalpha():
+            if guess in guessed_word:
+                print("bro you already guessed",guess)
+            elif guess!=word_chose:
+                print("sorry wrong guess")
+                tries-=1
+                guessed_word.append(guess)
+            else:
+                print("your guess is right..")
+                word_completion=word_chose
+        else:
+            print("INVALID GUESS")
+        print(hangman_status(tries))
+        print(word_completion,end="\n")
+        if word_completion == word_chose:
+            guessed = True
+            print("congrats you guessed the word")
+        elif tries==0:
+            print("sorry you are out of tries ...you are hanged")
+if __name__=="__main__":
+    play()
+    while input("do you want to play more..(y/n)").upper()=="Y":
+        play()
